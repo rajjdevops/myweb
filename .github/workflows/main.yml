@@ -1,25 +1,13 @@
-
-name: Docker Image CI
+name: Multi-Job Workflow
 
 on:
   push:
     branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
-
+    environment: prod  # 👈 references the GitHub environment
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
-
-      - name: Slack Notification
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_MESSAGE: "✅ Docker image built successfully from `${{ github.ref }}`"
+      - name: Deploy App
+        run: echo "Deploying to PROD"
